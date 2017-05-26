@@ -257,13 +257,13 @@ describe Graphorrhea do
 
       let(:default_length) { Graphorrhea::DefaultWordLength }
 
-      it "has a default word length of 5" do
-        expect(default_length).to eq 5
+      it "has a default word length of the range (3..9)" do
+        expect(default_length).to eq (3..9)
       end
 
       context "by default" do
-        it "returns a five character word" do
-          expect(subject.length).to eq default_length
+        it "returns a word within the range" do
+          expect(default_length).to cover(subject.length)
         end
       end
 
@@ -273,8 +273,16 @@ describe Graphorrhea do
         context "with an explicit 'nil' length" do
           let(:wlength) { nil }
 
-          it "returns a five character word" do
-            expect(subject.length).to eq default_length
+          it "returns a word within the range" do
+            expect(default_length).to cover(subject.length)
+          end
+        end
+
+        context "with length of 0 specified" do
+          let(:wlength) { 0 }
+
+          it "returns a word within the range" do
+            expect(default_length).to cover(subject.length)
           end
         end
 
@@ -291,14 +299,6 @@ describe Graphorrhea do
 
           it "returns a 10000 character word" do
             expect(subject.length).to eq wlength
-          end
-        end
-
-        context "with length of 0 specified" do
-          let(:wlength) { 0 }
-
-          it "returns a five character word" do
-            expect(subject.length).to eq default_length
           end
         end
       end

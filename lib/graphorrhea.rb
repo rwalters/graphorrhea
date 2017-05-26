@@ -1,7 +1,7 @@
 require 'securerandom'
 
 class Graphorrhea
-  DefaultWordLength     = 5
+  DefaultWordLength     = (3..9)
   DefaultWordCount      = 5
   DefaultSentenceCount  = 3
 
@@ -31,21 +31,27 @@ class Graphorrhea
   end
 
   def sentences(num_sentences = nil, slength = nil, wlength = nil)
-    num_sentences = DefaultSentenceCount if num_sentences.to_i <= 0
-    num_sentences.times.map{ self.class.sentence(sample(slength), wlength) }
+    num_sentences = DefaultSentenceCount if to_int(num_sentences) <= 0
+    sample(num_sentences).times.map{ self.class.sentence(slength, wlength) }
   end
 
   def words(num_words = nil, wlength = nil)
-    num_words = DefaultWordCount if num_words.to_i <= 0
-    word_stream(wlength).take(num_words)
+    num_words = DefaultWordCount if to_int(num_words) <= 0
+    word_stream(wlength).take(sample(num_words))
   end
 
   def word(num_letters = nil)
-    num_letters = DefaultWordLength if num_letters.to_i <= 0
-    char_stream.take(num_letters).join('')
+    num_letters = DefaultWordLength if to_int(num_letters) <= 0
+    char_stream.take(sample(num_letters)).join('')
   end
 
   private
+
+  def to_int(input)
+    return input.end if input.is_a?(Range)
+
+    input.to_i
+  end
 
   def random_char
     sample(CHARS)
@@ -64,7 +70,7 @@ class Graphorrhea
   def word_stream(wlength)
     Enumerator.new do |y|
       loop do
-        y.yield word(sample(wlength))
+        y.yield word(wlength)
       end
     end
   end
