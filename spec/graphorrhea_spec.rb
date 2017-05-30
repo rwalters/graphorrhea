@@ -109,8 +109,8 @@ describe Graphorrhea do
       expect(default_count).to eq 5
     end
 
-    it "ends a sentence with a period" do
-      expect(subject).to match(/\.$/)
+    it "initial upper case letter, the rest lower case, ends with a period" do
+      expect(subject).to match(/^[A-Z]+[a-z\s]+\.$/)
     end
 
     context "by default" do
