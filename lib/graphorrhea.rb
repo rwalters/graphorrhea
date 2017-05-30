@@ -1,6 +1,8 @@
 require 'securerandom'
+require 'streamable'
 
 class Graphorrhea
+  include Streamable
   DefaultWordLength     = (3..9)
   DefaultWordCount      = 5
   DefaultSentenceCount  = 3
@@ -67,12 +69,6 @@ class Graphorrhea
 
   def word_stream(wlength)
     streamer { word(wlength) }
-  end
-
-  def streamer(&block)
-    Enumerator.new do |y|
-      loop { y.yield block.call }
-    end
   end
 
   LALPHAS = ('a'..'z').to_a.freeze
