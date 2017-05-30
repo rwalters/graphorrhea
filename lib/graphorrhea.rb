@@ -3,19 +3,18 @@ require 'streamable'
 
 class Graphorrhea
   include Streamable
+
   DefaultWordLength     = (3..9)
   DefaultWordCount      = 5
   DefaultSentenceCount  = 3
 
   class << self
     def word(num_letters = nil)
-      @@inst ||= new
-      @@inst.word(num_letters)
+      self.new.word(num_letters)
     end
 
     def words(num_words = nil, wlength = nil)
-      @@inst ||= new
-      @@inst.words(num_words, wlength)
+      self.new.words(num_words, wlength)
     end
 
     def sentence(num_words = nil, wlength = nil)
@@ -23,14 +22,22 @@ class Graphorrhea
     end
 
     def sentences(num_sentences = nil, slength = nil, wlength = nil)
-      @@inst ||= new
-      @@inst.sentences(num_sentences, slength, wlength)
+      self.new.sentences(num_sentences, slength, wlength)
     end
   end
 
-  def initialize(seed = SecureRandom.random_number)
-    @rng = Random.new(seed)
+  def initialize(seed = nil)
+    unless defined?(@@inst)
+      @@inst = Hash.new{|h, k| h[k] = init(k) }
+    end
+
+    if seed.nil?
+      @@inst[seed]
+    else
+      @@inst[seed] = init(seed)
+    end
   end
+  alias_method :init, :initialize
 
   def sentences(num_sentences = nil, slength = nil, wlength = nil)
     num_sentences = DefaultSentenceCount if to_int(num_sentences) <= 0
@@ -48,6 +55,11 @@ class Graphorrhea
   end
 
   private
+
+  def init(seed = nil)
+    seed = SecureRandom.random_number if seed.nil?
+    @rng = Random.new(seed)
+  end
 
   def to_int(input)
     return input.end if input.is_a?(Range)
