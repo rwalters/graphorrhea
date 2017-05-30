@@ -62,18 +62,21 @@ class Graphorrhea
   end
 
   def char_stream
-    Enumerator.new do |y|
-      loop { y.yield random_char }
-    end
+    streamer { random_char }
   end
 
   def word_stream(wlength)
+    streamer { word(wlength) }
+  end
+
+  def streamer(&block)
     Enumerator.new do |y|
-      loop do
-        y.yield word(wlength)
-      end
+      loop { y.yield block.call }
     end
   end
 
-  CHARS = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+  LALPHAS = ('a'..'z').to_a.freeze
+  UALPHAS = ('A'..'Z').to_a.freeze
+  NUMBERS = (0..9).to_a
+  CHARS   = LALPHAS.dup
 end
