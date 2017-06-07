@@ -12,7 +12,7 @@ describe Graphorrhea do
     end
 
     context "by default" do
-      it "generates the default numer of sentences" do
+      it "generates the default number of sentences" do
         expect(subject.count).to  be default_count
       end
     end

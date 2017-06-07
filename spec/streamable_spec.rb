@@ -7,8 +7,8 @@ end
 
 describe Streamable do
   subject { TestStream.new }
-  let(:incrementer)   { a=1;subject.streamer{ a += 2 } }
-  let(:missing_block) { subject.streamer }
+  let(:incrementer)   { a=1;subject.stream{ a += 2 } }
+  let(:missing_block) { subject.stream }
 
   it "creates an Enumerator" do
     expect(incrementer).to be_a(Enumerator)

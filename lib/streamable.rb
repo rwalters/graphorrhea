@@ -5,7 +5,7 @@ module Streamable
     end
   end
 
-  def streamer(&block)
+  def stream(&block)
     raise NoBlockError unless block_given?
 
     Enumerator.new do |y|

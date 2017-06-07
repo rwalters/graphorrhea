@@ -76,11 +76,11 @@ class Graphorrhea
   end
 
   def char_stream
-    streamer { random_char }
+    stream { random_char }
   end
 
   def word_stream(wlength)
-    streamer { word(wlength) }
+    stream { word(wlength) }
   end
 
   LALPHAS = ('a'..'z').to_a.freeze
