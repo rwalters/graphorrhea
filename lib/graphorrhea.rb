@@ -83,8 +83,6 @@ class Graphorrhea
     stream { word(wlength) }
   end
 
-  LALPHAS = ('a'..'z').to_a.freeze
-  UALPHAS = ('A'..'Z').to_a.freeze
-  NUMBERS = (0..9).to_a
-  CHARS   = LALPHAS.dup
+  NUMBERS = (0..9).to_a.freeze
+  CHARS   = ('a'..'z').to_a.freeze
 end
