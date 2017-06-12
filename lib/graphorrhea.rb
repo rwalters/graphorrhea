@@ -10,11 +10,11 @@ class Graphorrhea
 
   class << self
     def word(num_letters = nil)
-      self.new.word(num_letters)
+      self.instance.word(num_letters)
     end
 
     def words(num_words = nil, wlength = nil)
-      self.new.words(num_words, wlength)
+      self.instance.words(num_words, wlength)
     end
 
     def sentence(num_words = nil, wlength = nil)
@@ -22,22 +22,25 @@ class Graphorrhea
     end
 
     def sentences(num_sentences = nil, slength = nil, wlength = nil)
-      self.new.sentences(num_sentences, slength, wlength)
+      self.instance.sentences(num_sentences, slength, wlength)
+    end
+
+    def instance(seed = nil)
+      unless defined?(@@inst)
+        @@inst = Hash.new{|h, k| seed = SecureRandom.random_number if k.nil?;h[k] = self.new(seed)}
+      end
+
+      if seed.nil?
+        @@inst[seed]
+      else
+        @@inst[seed] = self.new(seed)
+      end
     end
   end
 
-  def initialize(seed = nil)
-    unless defined?(@@inst)
-      @@inst = Hash.new{|h, k| h[k] = init(k) }
-    end
-
-    if seed.nil?
-      @@inst[seed]
-    else
-      @@inst[seed] = init(seed)
-    end
+  def initialize(seed)
+    @rng = Random.new(seed)
   end
-  alias_method :init, :initialize
 
   def sentences(num_sentences = nil, slength = nil, wlength = nil)
     num_sentences = DefaultSentenceCount if to_int(num_sentences) <= 0
@@ -55,11 +58,6 @@ class Graphorrhea
   end
 
   private
-
-  def init(seed = nil)
-    seed = SecureRandom.random_number if seed.nil?
-    @rng = Random.new(seed)
-  end
 
   def to_int(input)
     return input.end if input.is_a?(Range)
