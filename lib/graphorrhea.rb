@@ -39,7 +39,7 @@ class Graphorrhea
   end
 
   def initialize(seed)
-    @rng = Random.new(seed)
+    @sampler = Sampler.new(seed)
   end
 
   def sentences(num_sentences = nil, slength = nil, wlength = nil)
@@ -58,6 +58,7 @@ class Graphorrhea
   end
 
   private
+  attr_reader :sampler
 
   def to_int(input)
     return input.end if input.is_a?(Range)
@@ -66,21 +67,35 @@ class Graphorrhea
   end
 
   def random_char
-    sample(CHARS)
+    chars.random
   end
 
   def sample(from_array)
-    Array(from_array).sample(random: @rng)
+    sampler.call(from_array)
   end
 
   def char_stream
-    stream { random_char }
+    chars.stream
   end
 
   def word_stream(wlength)
     stream { word(wlength) }
   end
 
-  NUMBERS = (0..9).to_a.freeze
-  CHARS   = ('a'..'z').to_a.freeze
+  def chars
+    @chars ||= Chars.new(sampler)
+  end
+
+  class Words
+    def random
+      char_stream.take(sample(num_letters)).join('')
+    end
+
+    def stream
+      word_stream(wlength).take(sample(num_words))
+    end
+  end
 end
+
+require 'sampler'
+require 'graphorrhea/chars'
