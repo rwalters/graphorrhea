@@ -4,7 +4,6 @@ require 'streamable'
 class Graphorrhea
   include Streamable
 
-  DefaultWordLength     = (3..9)
   DefaultWordCount      = 5
   DefaultSentenceCount  = 3
 
@@ -49,12 +48,11 @@ class Graphorrhea
 
   def words(num_words = nil, wlength = nil)
     num_words = DefaultWordCount if to_int(num_words) <= 0
-    word_stream(wlength).take(sample(num_words))
+    word_source.stream(wlength).take(sample(num_words))
   end
 
   def word(num_letters = nil)
-    num_letters = DefaultWordLength if to_int(num_letters) <= 0
-    char_stream.take(sample(num_letters)).join('')
+    word_source.random(num_letters)
   end
 
   private
@@ -67,7 +65,7 @@ class Graphorrhea
   end
 
   def random_char
-    chars.random
+    char_source.random
   end
 
   def sample(from_array)
@@ -75,27 +73,23 @@ class Graphorrhea
   end
 
   def char_stream
-    chars.stream
+    char_source.stream
   end
 
   def word_stream(wlength)
-    stream { word(wlength) }
+    word_source.stream(wlength)
   end
 
-  def chars
-    @chars ||= Chars.new(sampler)
+  def char_source
+    @ch_source ||= Graphorrhea::Chars.new(sampler)
   end
 
-  class Words
-    def random
-      char_stream.take(sample(num_letters)).join('')
-    end
-
-    def stream
-      word_stream(wlength).take(sample(num_words))
-    end
+  def word_source
+    @w_source ||= Graphorrhea::Words.new(char_source, sampler)
   end
+
 end
 
 require 'sampler'
 require 'graphorrhea/chars'
+require 'graphorrhea/words'

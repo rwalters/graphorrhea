@@ -8,10 +8,10 @@ class TestSampler
 end
 
 describe Graphorrhea::Chars do
-  let(:dictionary) { described_class::DICTIONARY }
+  let(:dictionary) { described_class::Dictionary }
 
-  describe "::DICTIONARY" do
-    subject { described_class::DICTIONARY }
+  describe "::Dictionary" do
+    subject { described_class::Dictionary }
 
     it "is an array" do
       expect(subject).to be_an(Array)

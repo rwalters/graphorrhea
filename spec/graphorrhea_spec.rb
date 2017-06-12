@@ -255,7 +255,7 @@ describe Graphorrhea do
     context "length of word returned" do
       subject { described_class.word }
 
-      let(:default_length) { Graphorrhea::DefaultWordLength }
+      let(:default_length) { Graphorrhea::Words::DefaultWordLength }
 
       it "has a default word length of the range (3..9)" do
         expect(default_length).to eq (3..9)
