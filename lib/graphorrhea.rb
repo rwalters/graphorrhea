@@ -18,7 +18,7 @@ class Graphorrhea
     end
 
     def sentence(num_words = nil, wlength = nil)
-      (words(num_words, wlength).join(' ') << '.').capitalize
+      words(num_words, wlength).join(' ').capitalize << '.'
     end
 
     def sentences(num_sentences = nil, slength = nil, wlength = nil)
