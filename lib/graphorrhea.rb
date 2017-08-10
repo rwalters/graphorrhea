@@ -59,6 +59,13 @@ class Graphorrhea
     word_source.random(num_letters)
   end
 
+  def set_source(type="word", source=nil)
+    case type.to_sym
+    when :word
+      @w_source = source || Graphorrhea::Words.new(char_source)
+    end
+  end
+
   private
   attr_reader :sampler
 
@@ -93,7 +100,7 @@ class Graphorrhea
   end
 
   def word_source
-    @w_source ||= Graphorrhea::Words.new(char_source)
+    @w_source || set_source(:word)
   end
 
   def sentence_source

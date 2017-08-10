@@ -173,6 +173,19 @@ describe Graphorrhea do
     end
   end
 
+  describe ".word" do
+    subject { described_class.instance(177) }
+
+    let(:num_letters) { 5 }
+    let(:word_source) { Struct.new(:random).new(num_letters) }
+
+    it "calls the word source" do
+      subject.set_source(:word, word_source)
+      expect(word_source).to receive(:random).with(num_letters)
+      subject.word(num_letters)
+    end
+  end
+
   describe ".words" do
     subject { described_class.words }
 
@@ -246,95 +259,6 @@ describe Graphorrhea do
           # We have to 'splat' the array since 'cover' expects
           # '.to cover(1,2,3)' and not '.to cover([1,2,3])'
           expect(word_length_range).to cover(*generated_words)
-        end
-      end
-    end
-  end
-
-  describe ".word" do
-    context "length of word returned" do
-      subject { described_class.word }
-
-      let(:default_length) { Graphorrhea::Words::DefaultWordLength }
-
-      it "has a default word length of the range (3..9)" do
-        expect(default_length).to eq (3..9)
-      end
-
-      context "by default" do
-        it "returns a word within the range" do
-          expect(default_length).to cover(subject.length)
-        end
-      end
-
-      context "with a length specified" do
-        subject { described_class.word(wlength) }
-
-        context "with an explicit 'nil' length" do
-          let(:wlength) { nil }
-
-          it "returns a word within the range" do
-            expect(default_length).to cover(subject.length)
-          end
-        end
-
-        context "with length of 0 specified" do
-          let(:wlength) { 0 }
-
-          it "returns a word within the range" do
-            expect(default_length).to cover(subject.length)
-          end
-        end
-
-        context "with length of 10 specified" do
-          let(:wlength) { 10 }
-
-          it "returns a ten character word" do
-            expect(subject.length).to eq wlength
-          end
-        end
-
-        context "with length of 10000 specified" do
-          let(:wlength) { 10000 }
-
-          it "returns a 10000 character word" do
-            expect(subject.length).to eq wlength
-          end
-        end
-      end
-    end
-
-    context "content of word returned" do
-      subject { described_class }
-
-      context "without specifying a seed" do
-        context "run twice in succession" do
-          it "returns different words each time" do
-            run1 = subject.word
-            run2 = subject.word
-
-            expect(run1).not_to eq run2
-          end
-        end
-      end
-
-      context "specifying a seed" do
-        context "initialized with the same seed" do
-          it "returns identical words each time" do
-            run1 = subject.new(1001).word
-            run2 = subject.new(1001).word
-
-            expect(run1).to eq run2
-          end
-        end
-
-        context "initialized with different seeds" do
-          it "returns different words each time" do
-            run1 = subject.new(42).word
-            run2 = subject.new(1138).word
-
-            expect(run1).not_to eq run2
-          end
         end
       end
     end

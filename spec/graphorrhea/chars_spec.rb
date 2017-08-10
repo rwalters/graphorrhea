@@ -3,7 +3,7 @@ require 'graphorrhea'
 
 class TestSampler
   def call(ary)
-    ary.first
+    Array(ary).first
   end
 end
 
@@ -11,7 +11,7 @@ describe Graphorrhea::Chars do
   let(:dictionary) { described_class::Dictionary }
 
   describe "::Dictionary" do
-    subject { described_class::Dictionary }
+    subject { dictionary }
 
     it "is an array" do
       expect(subject).to be_an(Array)

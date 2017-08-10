@@ -9,6 +9,10 @@ class Graphorrhea::Words
     @sampler = char_source.sampler
   end
 
+  def random_array(num_words = nil, wlength = nil, word_source = self)
+    word_source.stream(wlength).take(sample(num_words))
+  end
+
   def random(word_size = nil)
     char_source.stream.take(sample(word_size)).join('')
   end
