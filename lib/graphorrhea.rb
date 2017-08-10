@@ -46,6 +46,10 @@ class Graphorrhea
     sample(num_sentences).times.map{ self.class.sentence(slength, wlength) }
   end
 
+  def sentence(slength = nil, wlength = nil)
+    sentence_source(wlength).random(slength)
+  end
+
   def words(num_words = nil, wlength = nil)
     num_words = DefaultWordCount if to_int(num_words) <= 0
     word_source.stream(wlength).take(sample(num_words))
@@ -80,14 +84,40 @@ class Graphorrhea
     word_source.stream(wlength)
   end
 
+  def sentence_stream(wlength)
+    sentence_source.stream(wlength)
+  end
+
   def char_source
     @ch_source ||= Graphorrhea::Chars.new(sampler)
   end
 
   def word_source
-    @w_source ||= Graphorrhea::Words.new(char_source, sampler)
+    @w_source ||= Graphorrhea::Words.new(char_source)
   end
 
+  def sentence_source
+    @s_source ||= Graphorrhea::Sentence.new(word_source)
+  end
+
+  class Sentences
+    DefaultWordCount = 5
+    def initialize(word_source = Graphorrhea::Words.new(char_source))
+      @word_source = word_source
+      @sampler = word_source.sampler
+    end
+
+    def random(word_num = DefaultWordCount)
+      word_source.stream.take(sample(word_num)).join(' ').capitalize << '.'
+    end
+
+  private
+  attr_reader :word_source
+
+  def sample(to_test)
+    sampler.call(scrub(to_test))
+  end
+  end
 end
 
 require 'sampler'

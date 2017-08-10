@@ -1,11 +1,12 @@
 require 'streamable'
 
 class Graphorrhea::Words
+  attr_reader :sampler
   DefaultWordLength = (3..9)
 
-  def initialize(char_source = Graphorrhea::Chars.new, sampler = Sampler.new)
+  def initialize(char_source = Graphorrhea::Chars.new)
     @char_source = char_source
-    @sampler = sampler
+    @sampler = char_source.sampler
   end
 
   def random(word_size = nil)
@@ -17,7 +18,7 @@ class Graphorrhea::Words
   end
 
   private
-  attr_reader :char_source, :sampler
+  attr_reader :char_source
 
   def sample(to_test)
     sampler.call(scrub(to_test))

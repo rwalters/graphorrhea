@@ -1,6 +1,7 @@
 require 'streamable'
 
 class Graphorrhea::Chars
+  attr_reader :sampler
   Dictionary = ('a'..'z').to_a.freeze
 
   def initialize(sampler = Sampler.new)
@@ -16,7 +17,6 @@ class Graphorrhea::Chars
   end
 
   private
-  attr_reader :sampler
 
   class CharStreamer
     include Streamable

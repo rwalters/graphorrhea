@@ -1,5 +1,5 @@
 class Sampler
-  def initialize(seed = nil)
+  def initialize(seed = SecureRandom.random_number)
     @rng = Random.new(seed)
   end
 
