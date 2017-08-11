@@ -2,8 +2,8 @@ class Graphorrhea::Chars
   attr_reader :sampler
   Dictionary = ('a'..'z').to_a.freeze
 
-  def initialize(sampler = Graphorrhea::Sampler.new)
-    @sampler = sampler
+  def initialize(sampler = nil)
+    @sampler = sampler || Graphorrhea.config.sampler
   end
 
   def random

@@ -1,13 +1,18 @@
 require 'securerandom'
+require 'dry-configurable'
+
 require 'graphorrhea/streamable'
+require 'graphorrhea/sampler'
 require 'graphorrhea/instance'
 require 'graphorrhea/chars'
 require 'graphorrhea/words'
-require 'graphorrhea/sampler'
 
 module Graphorrhea
   DefaultWordCount      = 5
   DefaultSentenceCount  = 3
+  extend Dry::Configurable
+
+  setting :sampler, Graphorrhea::Sampler.new
 
   def self.word(num_letters = nil)
     Graphorrhea::Instance.word(num_letters)

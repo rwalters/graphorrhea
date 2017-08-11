@@ -1,14 +1,9 @@
-require 'rspec'
-require 'graphorrhea'
-
-class TestSampler
-  def call(ary)
-    Array(ary).first
-  end
-end
+require 'spec_helper'
 
 describe Graphorrhea::Chars do
   let(:dictionary) { described_class::Dictionary }
+  let(:sampler)    { TestSampler.new }
+
 
   describe "::Dictionary" do
     subject { dictionary }
@@ -23,9 +18,7 @@ describe Graphorrhea::Chars do
   end
 
   describe "#random" do
-    subject { described_class.new(sampler).random }
-
-    let(:sampler) { TestSampler.new }
+    subject { described_class.new.random }
 
     it "returns the item Sampler selects from the dictionary" do
       expect(subject).to eq(sampler.call(dictionary))
@@ -33,9 +26,7 @@ describe Graphorrhea::Chars do
   end
 
   describe "#stream" do
-    subject { described_class.new(sampler).stream }
-
-    let(:sampler) { TestSampler.new }
+    subject { described_class.new.stream }
 
     it "returns an array of items from the dictionary" do
       expect(subject.take(2)).to eq([sampler.call(dictionary), sampler.call(dictionary)])
