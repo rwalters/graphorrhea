@@ -1,5 +1,6 @@
 class Graphorrhea::Sampler
-  def initialize(seed = SecureRandom.random_number)
+  def initialize(seed = nil)
+    seed ||= SecureRandom.random_number
     @rng = Random.new(seed)
   end
 
