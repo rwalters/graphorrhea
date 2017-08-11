@@ -33,7 +33,8 @@ module Graphorrhea
     end
 
     def initialize(seed)
-      @sampler = Sampler.new(seed)
+      @sampler = Graphorrhea.config.sampler.class.new(seed)
+      @word_source = Graphorrhea.config.word_source_proc.call
     end
 
     def sentences(num_sentences = nil, slength = nil, wlength = nil)
@@ -47,22 +48,15 @@ module Graphorrhea
 
     def words(num_words = nil, wlength = nil)
       num_words = DefaultWordCount if to_int(num_words) <= 0
-      word_source.stream(wlength).take(sample(num_words))
+      word_stream(wlength).take(sample(num_words))
     end
 
     def word(num_letters = nil)
       word_source.random(num_letters)
     end
 
-    def set_source(type="word", source=nil)
-      case type.to_sym
-      when :word
-        @w_source = source || Graphorrhea::Words.new(char_source)
-      end
-    end
-
     private
-    attr_reader :sampler
+    attr_reader :sampler, :word_source
 
     def to_int(input)
       return input.end if input.is_a?(Range)
@@ -92,10 +86,6 @@ module Graphorrhea
 
     def char_source
       @ch_source ||= Graphorrhea::Chars.new(sampler)
-    end
-
-    def word_source
-      @w_source || set_source(:word)
     end
 
     def sentence_source

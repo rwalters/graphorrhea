@@ -1,5 +1,4 @@
-require 'rspec'
-require 'graphorrhea'
+require 'spec_helper'
 
 describe Graphorrhea do
   describe ".sentences" do
@@ -174,13 +173,18 @@ describe Graphorrhea do
   end
 
   describe ".word" do
+    before do
+      @old_proc = Graphorrhea.config.word_source_proc
+      Graphorrhea.config.word_source_proc = -> { word_source }
+    end
+    after  { Graphorrhea.config.word_source_proc = @old_proc }
+
     subject { described_class.instance(177) }
 
     let(:num_letters) { 5 }
-    let(:word_source) { Struct.new(:random).new(num_letters) }
+    let(:word_source) { Struct.new(:random).new(0) }
 
     it "calls the word source" do
-      subject.set_source(:word, word_source)
       expect(word_source).to receive(:random).with(num_letters)
       subject.word(num_letters)
     end

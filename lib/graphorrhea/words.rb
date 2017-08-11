@@ -4,11 +4,7 @@ class Graphorrhea::Words
 
   def initialize(char_source = Graphorrhea::Chars.new)
     @char_source = char_source
-    @sampler = char_source.sampler
-  end
-
-  def random_array(num_words = nil, wlength = nil, word_source = self)
-    word_source.stream(wlength).take(sample(num_words))
+    @sampler = Graphorrhea.config.sampler
   end
 
   def random(word_size = nil)
@@ -23,7 +19,8 @@ class Graphorrhea::Words
   attr_reader :char_source
 
   def sample(to_test)
-    sampler.call(scrub(to_test))
+    post_scrub = scrub(to_test)
+    sampler.call(post_scrub)
   end
 
   def scrub(word_size)
@@ -39,7 +36,7 @@ class Graphorrhea::Words
   class WordStream
     include Graphorrhea::Streamable
 
-    def initialize(word_source = Graphorrhea::Words.new)
+    def initialize(word_source)
       @word_source = word_source
     end
 

@@ -14,7 +14,13 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before(:each) do
-    Graphorrhea.config.sampler = TestSampler.new
+  config.before(:each) do |example|
+    if example.metadata[:test_sampler] == true
+      Graphorrhea.config.sampler = TestSampler.new
+    end
+  end
+
+  config.after(:each) do |example|
+    Graphorrhea.config.sampler = Graphorrhea::Sampler.new
   end
 end

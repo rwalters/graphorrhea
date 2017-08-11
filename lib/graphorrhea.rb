@@ -3,9 +3,9 @@ require 'dry-configurable'
 
 require 'graphorrhea/streamable'
 require 'graphorrhea/sampler'
-require 'graphorrhea/instance'
-require 'graphorrhea/chars'
 require 'graphorrhea/words'
+require 'graphorrhea/chars'
+require 'graphorrhea/instance'
 
 module Graphorrhea
   DefaultWordCount      = 5
@@ -13,6 +13,7 @@ module Graphorrhea
   extend Dry::Configurable
 
   setting :sampler, Graphorrhea::Sampler.new
+  setting :word_source_proc, ->{ Graphorrhea::Words.new }
 
   def self.word(num_letters = nil)
     Graphorrhea::Instance.word(num_letters)

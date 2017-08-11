@@ -1,9 +1,8 @@
 require 'spec_helper'
 
-describe Graphorrhea::Chars do
+describe Graphorrhea::Chars, :test_sampler do
   let(:dictionary) { described_class::Dictionary }
   let(:sampler)    { TestSampler.new }
-
 
   describe "::Dictionary" do
     subject { dictionary }

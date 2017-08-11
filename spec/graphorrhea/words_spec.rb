@@ -57,9 +57,7 @@ describe Graphorrhea::Words do
     end
 
     context "content of word returned" do
-      let(:sampler) { ->(seed){ Graphorrhea::Sampler.new(seed) } }
-
-      subject { Graphorrhea.config.sampler = sampler.call(nil);described_class.new }
+      subject { described_class.new }
 
       context "without specifying a seed" do
         context "run twice in succession" do
@@ -73,6 +71,7 @@ describe Graphorrhea::Words do
       end
 
       context "specifying a seed" do
+        let(:sampler) { ->(seed){ Graphorrhea::Sampler.new(seed) } }
         let(:run1) { Graphorrhea.config.sampler = sampler.call(seed1);described_class.new }
         let(:run2) { Graphorrhea.config.sampler = sampler.call(seed2);described_class.new }
 
