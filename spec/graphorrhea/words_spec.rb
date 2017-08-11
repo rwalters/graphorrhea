@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe Graphorrhea::Words do
-  let(:words) { described_class.new(char_source) }
-  let(:char_source) { Graphorrhea::Chars.new }
+  let(:words) { described_class.new }
 
   describe "#random" do
     context "length of word returned" do
@@ -58,8 +57,9 @@ describe Graphorrhea::Words do
     end
 
     context "content of word returned" do
-      subject { described_class.new(source) }
-      let(:source) { Graphorrhea::Chars.new(Graphorrhea::Sampler.new) }
+      let(:sampler) { ->(seed){ Graphorrhea::Sampler.new(seed) } }
+
+      subject { Graphorrhea.config.sampler = sampler.call(nil);described_class.new }
 
       context "without specifying a seed" do
         context "run twice in succession" do
@@ -73,18 +73,15 @@ describe Graphorrhea::Words do
       end
 
       context "specifying a seed" do
-        let(:run1) { described_class.new(source.call(seed1)).random }
-        let(:run2) { described_class.new(source.call(seed2)).random }
-
-        let(:source)  { ->(seed){ Graphorrhea::Chars.new(sampler.call(seed)) } }
-        let(:sampler) { ->(seed){ Graphorrhea::Sampler.new(seed) } }
+        let(:run1) { Graphorrhea.config.sampler = sampler.call(seed1);described_class.new }
+        let(:run2) { Graphorrhea.config.sampler = sampler.call(seed2);described_class.new }
 
         context "initialized with the same seed" do
           let(:seed1) { 1001 }
           let(:seed2) { 1001 }
 
           it "returns identical words each time" do
-            expect(run1).to eq run2
+            expect(run1.random).to eq run2.random
           end
         end
 
@@ -93,7 +90,7 @@ describe Graphorrhea::Words do
           let(:seed2) { 1138 }
 
           it "returns different words each time" do
-            expect(run1).not_to eq run2
+            expect(run1.random).not_to eq run2.random
           end
         end
       end
