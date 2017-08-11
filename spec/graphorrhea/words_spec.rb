@@ -82,8 +82,8 @@ describe Graphorrhea::Words do
         let(:run1) { described_class.new(source1).random }
         let(:run2) { described_class.new(source2).random }
 
-        let(:source1) { Graphorrhea::Chars.new(Sampler.new(seed1)) }
-        let(:source2) { Graphorrhea::Chars.new(Sampler.new(seed2)) }
+        let(:source1) { Graphorrhea::Chars.new(Graphorrhea::Sampler.new(seed1)) }
+        let(:source2) { Graphorrhea::Chars.new(Graphorrhea::Sampler.new(seed2)) }
 
         context "initialized with the same seed" do
           let(:seed1) { 1001 }

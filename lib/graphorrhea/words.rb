@@ -1,5 +1,3 @@
-require 'streamable'
-
 class Graphorrhea::Words
   attr_reader :sampler
   DefaultWordLength = (3..9)
@@ -39,7 +37,7 @@ class Graphorrhea::Words
   end
 
   class WordStream
-    include Streamable
+    include Graphorrhea::Streamable
 
     def initialize(word_source = Graphorrhea::Words.new)
       @word_source = word_source

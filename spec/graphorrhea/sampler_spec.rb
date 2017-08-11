@@ -1,7 +1,7 @@
 require 'rspec'
-require 'sampler'
+require 'graphorrhea/sampler'
 
-describe Sampler do
+describe Graphorrhea::Sampler do
   subject { described_class.new(seed) }
   let(:seed) { 42 }
   let(:given_array) { [1, 2, 3, 4] }
