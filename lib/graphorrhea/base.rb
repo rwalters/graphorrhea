@@ -40,8 +40,8 @@ module Graphorrhea
       sampler.call(post_scrub)
     end
 
-    def scrub(word_size)
-      to_int(word_size) <= 0 ? DefaultSampleSize : word_size
+    def scrub(sample_size)
+      to_int(sample_size) <= 0 ? self.class.const_get(:DefaultSampleSize) : sample_size
     end
 
     def to_int(input)
