@@ -13,6 +13,7 @@ module Graphorrhea
   extend Dry::Configurable
 
   setting :sampler, Graphorrhea::Sampler.new
+  setting :char_source_proc, ->{ Graphorrhea::Chars.new }
   setting :word_source_proc, ->{ Graphorrhea::Words.new }
 
   def self.word(num_letters = nil)

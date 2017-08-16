@@ -12,7 +12,7 @@ class Graphorrhea::Words
   end
 
   def stream(word_size = nil)
-    WordStream.new(self).call(word_size)
+    Stream.new(self).call(word_size)
   end
 
   private
@@ -33,14 +33,14 @@ class Graphorrhea::Words
     input.to_i
   end
 
-  class WordStream
+  class Stream
     include Graphorrhea::Streamable
 
-    def initialize(word_source)
-      @word_source = word_source
+    def initialize(word_source = nil)
+      @word_source = word_source || Graphorrhea.config.word_source_proc.call
     end
 
-    def call(word_size)
+    def call(word_size = nil)
       stream { word_source.random(word_size) }
     end
 

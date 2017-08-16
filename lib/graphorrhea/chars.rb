@@ -10,13 +10,13 @@ class Graphorrhea::Chars
   end
 
   def stream
-    CharStreamer.new(self).call
+    Stream.new(self).call
   end
 
   private
   attr_reader :sampler
 
-  class CharStreamer
+  class Stream
     include Graphorrhea::Streamable
 
     def initialize(char_source = Graphorrhea::Chars.new)

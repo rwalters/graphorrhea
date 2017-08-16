@@ -64,16 +64,8 @@ module Graphorrhea
       input.to_i
     end
 
-    def random_char
-      char_source.random
-    end
-
     def sample(from_array)
       sampler.call(from_array)
-    end
-
-    def char_stream
-      char_source.stream
     end
 
     def word_stream(wlength)
