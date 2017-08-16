@@ -1,4 +1,4 @@
-module Graphorrhea::Streamable
+module Graphorrhea::Utils::Streamable
   class NoBlockError < ArgumentError
     def initialize(msg = "Block required for streaming")
       super

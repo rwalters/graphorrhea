@@ -1,8 +1,8 @@
 require 'securerandom'
 require 'dry-configurable'
 
-require 'graphorrhea/streamable'
-require 'graphorrhea/sampler'
+require 'graphorrhea/utils/sampler'
+require 'graphorrhea/utils/streamable'
 require 'graphorrhea/words'
 require 'graphorrhea/chars'
 require 'graphorrhea/instance'
@@ -12,7 +12,7 @@ module Graphorrhea
   DefaultSentenceCount  = 3
   extend Dry::Configurable
 
-  setting :sampler, Graphorrhea::Sampler.new
+  setting :sampler, Graphorrhea::Utils::Sampler.new
   setting :char_source_proc, ->{ Graphorrhea::Chars.new }
   setting :word_source_proc, ->{ Graphorrhea::Words.new }
 

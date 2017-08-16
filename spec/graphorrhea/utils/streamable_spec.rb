@@ -1,11 +1,10 @@
-require 'rspec'
-require 'graphorrhea/streamable'
+require 'spec_helper'
 
 class TestStream
-  include Graphorrhea::Streamable
+  include Graphorrhea::Utils::Streamable
 end
 
-describe Graphorrhea::Streamable do
+describe Graphorrhea::Utils::Streamable do
   subject { TestStream.new }
   let(:incrementer)   { a=1;subject.stream{ a += 2 } }
   let(:missing_block) { subject.stream }
@@ -19,6 +18,6 @@ describe Graphorrhea::Streamable do
   end
 
   it "requires a block" do
-    expect{ missing_block }.to raise_error(Graphorrhea::Streamable::NoBlockError)
+    expect{ missing_block }.to raise_error(Graphorrhea::Utils::Streamable::NoBlockError)
   end
 end

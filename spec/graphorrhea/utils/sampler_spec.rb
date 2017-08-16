@@ -14,7 +14,7 @@ shared_examples "selecting from array" do
   end
 end
 
-describe Graphorrhea::Sampler do
+describe Graphorrhea::Utils::Sampler do
   context "without a seed" do
     subject { described_class.new }
     let(:given_array) { [1, 2, 3, 4] }

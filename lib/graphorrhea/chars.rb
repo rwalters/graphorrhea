@@ -17,7 +17,7 @@ class Graphorrhea::Chars
   attr_reader :sampler
 
   class Stream
-    include Graphorrhea::Streamable
+    include Graphorrhea::Utils::Streamable
 
     def initialize(char_source = Graphorrhea::Chars.new)
       @char_source = char_source

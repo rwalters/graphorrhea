@@ -100,7 +100,7 @@ describe Graphorrhea::Words do
       end
 
       context "specifying a seed" do
-        let(:sampler) { ->(seed){ Graphorrhea::Sampler.new(seed) } }
+        let(:sampler) { ->(seed){ Graphorrhea::Utils::Sampler.new(seed) } }
         let(:run1) { Graphorrhea.config.sampler = sampler.call(seed1);described_class.new }
         let(:run2) { Graphorrhea.config.sampler = sampler.call(seed2);described_class.new }
 

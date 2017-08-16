@@ -21,6 +21,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do |example|
-    Graphorrhea.config.sampler = Graphorrhea::Sampler.new
+    Graphorrhea.config.sampler = Graphorrhea::Utils::Sampler.new
   end
 end

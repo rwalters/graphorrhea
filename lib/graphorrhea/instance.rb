@@ -1,6 +1,6 @@
 module Graphorrhea
   class Instance
-    include Graphorrhea::Streamable
+    include Graphorrhea::Utils::Streamable
 
     class << self
       def word(num_letters = nil)

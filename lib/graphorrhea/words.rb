@@ -41,7 +41,7 @@ class Graphorrhea::Words
   end
 
   class Stream
-    include Graphorrhea::Streamable
+    include Graphorrhea::Utils::Streamable
 
     def initialize(word_source = nil)
       @word_source = word_source || Graphorrhea.config.word_source_proc.call
