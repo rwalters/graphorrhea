@@ -1,3 +1,7 @@
+require 'graphorrhea/base'
+require 'graphorrhea/chars'
+require 'graphorrhea/words'
+
 module Graphorrhea
   class Instance
     include Graphorrhea::Utils::Streamable
@@ -74,10 +78,6 @@ module Graphorrhea
 
     def sentence_stream(wlength)
       sentence_source.stream(wlength)
-    end
-
-    def char_source
-      @ch_source ||= Graphorrhea::Chars.new(sampler)
     end
 
     def sentence_source

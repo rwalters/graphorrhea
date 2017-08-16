@@ -1,9 +1,8 @@
 require 'securerandom'
 require 'dry-configurable'
 
-require 'graphorrhea/base'
-require 'graphorrhea/words'
-require 'graphorrhea/chars'
+require 'graphorrhea/utils'
+
 require 'graphorrhea/instance'
 
 module Graphorrhea

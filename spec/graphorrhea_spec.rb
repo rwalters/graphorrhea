@@ -200,7 +200,7 @@ describe Graphorrhea do
     end
 
     context "by default" do
-      it "generates the default numer of words" do
+      it "generates the default number of words" do
         expect(subject.count).to be default_count
         expect(subject.size).to be default_count
       end

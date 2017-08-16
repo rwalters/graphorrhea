@@ -1,7 +1,3 @@
-require 'graphorrhea/utils/sampler'
-require 'graphorrhea/utils/streamable'
-require 'graphorrhea/utils/streamer'
-
 module Graphorrhea
   class Base
     def self.call(num_to_take = nil)
