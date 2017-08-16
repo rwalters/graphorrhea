@@ -81,25 +81,37 @@ module Graphorrhea
     end
 
     def sentence_source
-      @s_source ||= Graphorrhea::Sentence.new(word_source)
+      @s_source ||= Graphorrhea::Sentences.new(word_source)
     end
 
     class Sentences
       DefaultWordCount = 5
-      def initialize(word_source = Graphorrhea::Words.new(char_source))
-        @word_source  = word_source
-        @sampler      = word_source.sampler
+      def initialize(source = nil)
+        @source  = source || Graphorrhea.config.word_source_proc.call
+        @sampler = word_source.sampler
       end
 
-      def random(word_num = DefaultWordCount)
+      def random(num_to_take = nil)
+        source.stream.take(sample(word_size)).join('')
         word_source.stream.take(sample(word_num)).join(' ').capitalize << '.'
       end
 
       private
-      attr_reader :word_source
+      attr_reader :source
+
+      def scrub(word_size)
+        to_int(word_size) <= 0 ? DefaultWordCount : word_size
+      end
 
       def sample(to_test)
-        sampler.call(scrub(to_test))
+        post_scrub = scrub(to_test)
+        sampler.call(post_scrub)
+      end
+
+      def to_int(input)
+        return input.end if input.is_a?(Range)
+
+        input.to_i
       end
     end
   end

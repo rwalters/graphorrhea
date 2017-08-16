@@ -37,7 +37,7 @@ describe Graphorrhea::Words do
     context "length of word returned" do
       subject { words.random }
 
-      let(:default_length) { Graphorrhea::Words::DefaultWordLength }
+      let(:default_length) { Graphorrhea::Words::DefaultSampleSize }
 
       it "has a default word length of the range (3..9)" do
         expect(default_length).to eq (3..9)
