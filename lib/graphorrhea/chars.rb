@@ -1,33 +1,33 @@
 class Graphorrhea::Chars
   Dictionary = ('a'..'z').to_a.freeze
 
+  def self.call(num_to_take = nil)
+    num_to_take = num_to_take.to_i
+    num_to_take = 1 if num_to_take < 1
+
+    new.stream.take(num_to_take)
+  end
+
   def initialize(sampler = nil)
     @sampler = sampler || Graphorrhea.config.sampler
   end
 
-  def random
+  def call
     sampler.call(Dictionary)
   end
 
+  def random(sample_size = nil)
+    call
+  end
+
   def stream
-    Stream.new(self).call
+    streamer.call
   end
 
   private
   attr_reader :sampler
 
-  class Stream
-    include Graphorrhea::Utils::Streamable
-
-    def initialize(char_source = Graphorrhea::Chars.new)
-      @char_source = char_source
-    end
-
-    def call
-      stream { char_source.random }
-    end
-
-    private
-    attr_reader :char_source
+  def streamer
+    Graphorrhea::Utils::Streamer.new(self)
   end
 end

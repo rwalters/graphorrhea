@@ -16,6 +16,36 @@ describe Graphorrhea::Chars, :test_sampler do
     end
   end
 
+  describe ".call" do
+    context "without a param" do
+      subject { described_class.call }
+
+      it "returns one char" do
+        expect(Array(subject).count).to eq 1
+      end
+    end
+
+    [3,7,13].each do |i|
+      context "with a param of #{i}" do
+        subject { described_class.call(i) }
+
+        it "returns #{i} chars" do
+          expect(Array(subject).count).to eq i
+        end
+      end
+    end
+
+    [-7, -3, 0].each do |i|
+      context "with a param of #{i}" do
+        subject { described_class.call(i) }
+
+        it "returns one char" do
+          expect(Array(subject).count).to eq 1
+        end
+      end
+    end
+  end
+
   describe "#random" do
     subject { described_class.new.random }
 

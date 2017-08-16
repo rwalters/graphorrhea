@@ -87,8 +87,8 @@ module Graphorrhea
     class Sentences
       DefaultWordCount = 5
       def initialize(word_source = Graphorrhea::Words.new(char_source))
-        @word_source = word_source
-        @sampler = word_source.sampler
+        @word_source  = word_source
+        @sampler      = word_source.sampler
       end
 
       def random(word_num = DefaultWordCount)

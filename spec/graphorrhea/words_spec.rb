@@ -32,6 +32,7 @@ describe Graphorrhea::Words do
       end
     end
   end
+
   describe "#random" do
     context "length of word returned" do
       subject { words.random }

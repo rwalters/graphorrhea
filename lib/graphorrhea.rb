@@ -3,6 +3,7 @@ require 'dry-configurable'
 
 require 'graphorrhea/utils/sampler'
 require 'graphorrhea/utils/streamable'
+require 'graphorrhea/utils/streamer'
 require 'graphorrhea/words'
 require 'graphorrhea/chars'
 require 'graphorrhea/instance'
