@@ -2,8 +2,15 @@ class Graphorrhea::Words
   attr_reader :sampler
   DefaultWordLength = (3..9)
 
-  def initialize(char_source = Graphorrhea::Chars.new)
-    @char_source = char_source
+  def self.call(num_words = nil)
+    num_words = num_words.to_i
+    num_words = 1 if num_words < 1
+
+    new.stream.take(num_words)
+  end
+
+  def initialize(char_source = nil)
+    @char_source = char_source || Graphorrhea.config.char_source_proc.call
     @sampler = Graphorrhea.config.sampler
   end
 

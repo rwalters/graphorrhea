@@ -3,6 +3,35 @@ require 'spec_helper'
 describe Graphorrhea::Words do
   let(:words) { described_class.new }
 
+  describe ".call" do
+    context "without a param" do
+      subject { described_class.call }
+
+      it "returns one word" do
+        expect(Array(subject).count).to eq 1
+      end
+    end
+
+    [3,7,13].each do |i|
+      context "with a param of #{i}" do
+        subject { described_class.call(i) }
+
+        it "returns #{i} words" do
+          expect(Array(subject).count).to eq i
+        end
+      end
+    end
+
+    [-7, -3, 0].each do |i|
+      context "with a param of #{i}" do
+        subject { described_class.call(i) }
+
+        it "returns one word" do
+          expect(Array(subject).count).to eq 1
+        end
+      end
+    end
+  end
   describe "#random" do
     context "length of word returned" do
       subject { words.random }
