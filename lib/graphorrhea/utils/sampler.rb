@@ -9,6 +9,7 @@ module Graphorrhea::Utils
       Array(from_array).sample(random: rng)
     end
 
+
     private
     attr_reader :rng
   end

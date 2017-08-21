@@ -4,10 +4,10 @@ describe Graphorrhea do
   describe ".sentences" do
     subject { described_class.sentences }
 
-    let(:default_count) { Graphorrhea::DefaultSentenceCount }
+    let(:default_count) { Graphorrhea::Instance::DefaultSampleSize }
 
     it "generates three sentences" do
-      expect(default_count).to eq 3
+      expect(default_count).to eq 5
     end
 
     context "by default" do
@@ -101,11 +101,11 @@ describe Graphorrhea do
   describe ".sentence" do
     subject { described_class.sentence }
 
-    let(:default_count) { Graphorrhea::DefaultWordCount }
+    let(:default_sample_size) { Graphorrhea::Sentences::DefaultSampleSize }
     let(:words_in_sentence) { subject.split(/ /) }
 
-    it "generates a five word sentence" do
-      expect(default_count).to eq 5
+    it "generates a new sentence" do
+      expect(default_sample_size).to eq (5..9)
     end
 
     it "initial upper case letter, the rest lower case, ends with a period" do
@@ -114,7 +114,7 @@ describe Graphorrhea do
 
     context "by default" do
       it "generates the default numer of words" do
-        expect(words_in_sentence.count).to  be default_count
+        expect(default_sample_size).to cover(*words_in_sentence.count)
       end
     end
 
@@ -125,7 +125,7 @@ describe Graphorrhea do
         let(:wcount) { nil }
 
         it "returns default number of words" do
-          expect(words_in_sentence.count).to eq default_count
+          expect(default_sample_size).to cover(words_in_sentence.count)
         end
       end
 
@@ -133,7 +133,7 @@ describe Graphorrhea do
         let(:wcount) { 0 }
 
         it "returns default number of words" do
-          expect(words_in_sentence.count).to eq default_count
+          expect(default_sample_size).to cover(words_in_sentence.count)
         end
       end
 
@@ -193,7 +193,7 @@ describe Graphorrhea do
   describe ".words" do
     subject { described_class.words }
 
-    let(:default_count) { Graphorrhea::DefaultWordCount }
+    let(:default_count) { Graphorrhea::Instance::DefaultSampleSize }
 
     it "generates five words by default" do
       expect(default_count).to eq 5

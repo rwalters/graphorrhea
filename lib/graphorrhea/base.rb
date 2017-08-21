@@ -23,6 +23,7 @@ module Graphorrhea
     def stream(sample_size = nil)
       streamer.call(sample_size)
     end
+
     private
     attr_reader :sampler
     attr_reader :source

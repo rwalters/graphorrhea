@@ -6,13 +6,16 @@ require 'graphorrhea/utils'
 require 'graphorrhea/instance'
 
 module Graphorrhea
-  DefaultWordCount      = 5
-  DefaultSentenceCount  = 3
   extend Dry::Configurable
 
   setting :sampler, Graphorrhea::Utils::Sampler.new
   setting :char_source_proc, ->{ Graphorrhea::Chars.new }
   setting :word_source_proc, ->{ Graphorrhea::Words.new }
+  setting :sentence_source_proc, ->(word_len = nil){
+    Graphorrhea::Sentences
+      .new
+      .tap { |obj| obj.word_length = word_len }
+  }
 
   def self.word(num_letters = nil)
     Graphorrhea::Instance.word(num_letters)
